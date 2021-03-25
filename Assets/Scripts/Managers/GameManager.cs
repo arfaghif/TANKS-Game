@@ -119,7 +119,8 @@ public class GameManager : MonoBehaviour
         m_MessageText.text = string.Empty;
 
         // While there is not one tank left...
-        while (!OneTankLeft())
+        //while (!OneTankLeft())
+        while (true)
         {
             // ... return on the next frame.
             yield return null;

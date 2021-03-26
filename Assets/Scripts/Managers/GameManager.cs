@@ -10,7 +10,11 @@ public class GameManager : MonoBehaviour
     public CameraControl m_CameraControl;       // Reference to the CameraControl script for control during different phases.
     public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
     public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
+    public GameObject m_CoinPrefab;
     public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
+    private GameObject[] Coins;
+    private float lastSpawn;
+    //public Transform[] m_SpawnCoins;
     public Button m_PlayButton;
     public Text m_SubTitle;
     public Text m_Player1Label;
@@ -20,6 +24,7 @@ public class GameManager : MonoBehaviour
     public Slider m_VolumeMixer;
     public InputField m_InputFieldPlayer1;
     public InputField m_InputFieldPlayer2;
+
 
 
     private int m_RoundNumber;                  // Which round the game is currently on.
@@ -51,11 +56,28 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < m_Tanks.Length; i++)
         {
             // ... create them, set their player number and references needed for control.
-            m_Tanks[i].m_Instance =
-                Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
+
+            m_Tanks[i].m_Instance = Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
             m_Tanks[i].m_PlayerNumber = i + 1;
             m_Tanks[i].Setup();
         }
+    }
+
+
+    private void SpawnCoins()
+    {
+        if (Time.time - lastSpawn >= 7)
+        {
+            Instantiate(m_CoinPrefab, new Vector3(Random.Range(-298, -276), 0.6f, Random.Range(-39, 21)), Quaternion.identity);
+            lastSpawn = Time.time;
+        }
+        /*   Coins = new GameObject[2];
+           // For all the tanks...
+           for (int i = 0; i < 2; i++)
+           {
+               // ... create them, set their player number and references needed for control.
+               Instantiate(m_CoinPrefab, m_SpawnCoins[i]) as GameObject;
+           }*/
     }
 
 
@@ -85,6 +107,7 @@ public class GameManager : MonoBehaviour
         // Once the 'RoundStarting' coroutine is finished, run the 'RoundPlaying' coroutine but don't return until it's finished.
         yield return StartCoroutine(RoundPlaying());
 
+
         // Once execution has returned here, run the 'RoundEnding' coroutine, again don't return until it's finished.
         yield return StartCoroutine(RoundEnding());
 
@@ -107,6 +130,7 @@ public class GameManager : MonoBehaviour
     {
         // As soon as the round starts reset the tanks and make sure they can't move.
         ResetAllTanks();
+        //ResetAllCoins();
         DisableTankControl();
 
         // Snap the camera's zoom and position to something appropriate for the reset tanks.
@@ -144,6 +168,7 @@ public class GameManager : MonoBehaviour
         //while (!OneTankLeft())
         while (true)
         {
+            SpawnCoins();
             // ... return on the next frame.
             yield return null;
         }
@@ -264,7 +289,14 @@ public class GameManager : MonoBehaviour
             m_Tanks[i].Reset();
         }
     }
-
+    private void ResetAllCoins()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            Coins[i].SetActive(false);
+            Coins[i].SetActive(true);
+        }
+    }
 
     private void EnableTankControl()
     {
@@ -286,6 +318,7 @@ public class GameManager : MonoBehaviour
     private void StartPlay()
     {
         SpawnAllTanks();
+        //SpawnAllCoins();
         SetCameraTargets();
 
         // Once the tanks have been created and the camera is using them as targets, start the game.

@@ -11,11 +11,13 @@ public class TankCoin : MonoBehaviour
     public Text totalCoinText;
     public AudioSource m_CollectCoinAudio;
     private string m_BuyItemButton;
+    public string m_BuyChikenButton;
 
     // Start is called before the first frame update
     void Start()
     {
         m_BuyItemButton = "BuyPlayer" + m_PlayerNumber;
+        m_BuyChikenButton = "Chiken" + m_PlayerNumber;
     }
 
     private void OnEnable()
@@ -47,16 +49,38 @@ public class TankCoin : MonoBehaviour
             TankShooting shootTank = gameObject.GetComponent<TankShooting>();
             if (shootTank.ShellNumber == 0 ){
                 shootTank.switchShell(1);
+                m_CurrentCoin -= price;
+                SetCoinUI();
             }
             
-            m_CurrentCoin -= price;
-            SetCoinUI();
+            
         }
 
 
         // Change the UI elements appropriately.
         //SetHealthUI();
     }
+
+    public void BuyChiken(int price)
+    {
+        // Reduce current health by the amount of damage done.
+        if (m_CurrentCoin >= price)
+        {
+            TankHealth healthTank = gameObject.GetComponent<TankHealth>();
+            if (healthTank.invisible == false)
+            {
+                healthTank.CreateAggroHolder();
+                m_CurrentCoin -= price;
+                SetCoinUI();
+            }
+     }
+
+
+        // Change the UI elements appropriately.
+        //SetHealthUI();
+    }
+
+
     private void SetCoinUI()
     {
         // Set the slider's value appropriately.
@@ -72,6 +96,10 @@ public class TankCoin : MonoBehaviour
         if (Input.GetButtonDown(m_BuyItemButton))
         {
             BuyItem(150);
+        }
+        if (Input.GetButtonDown(m_BuyChikenButton))
+        {
+            BuyChiken(350);
         }
     }
 

@@ -23,7 +23,10 @@ public class ShellExplosion : MonoBehaviour
         // Find all the tanks in an area around the shell and damage them.
         // Collect all the colliders in a sphere from the shell's current position to a radius of the explosion radius.
         Collider[] colliders = Physics.OverlapSphere (transform.position, m_ExplosionRadius, m_TankMask);
-
+        if(other.gameObject.layer == 11)
+        {
+            Destroy(other.gameObject);
+        }
         // Go through all the colliders...
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -48,7 +51,11 @@ public class ShellExplosion : MonoBehaviour
             float damage = CalculateDamage (targetRigidbody.position);
 
             // Deal this damage to the tank.
-            targetHealth.TakeDamage (damage);
+            if (!targetHealth.invisible)
+            {
+                targetHealth.TakeDamage(damage);
+            }
+            
         }
 
         // Unparent the particles from the shell.

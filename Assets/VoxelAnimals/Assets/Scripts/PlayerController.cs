@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        Destroy(gameObject, 20);
     }
 
     void Update()
@@ -63,11 +64,11 @@ public class PlayerController : MonoBehaviour
         timeCountHorizontal += Time.deltaTime;
         timeCountVertical += Time.deltaTime;
 
-        if (Input.GetButtonDown("Fire3") && Time.time > canJump)
+ /*       if (Input.GetButtonDown("Fire3") && Time.time > canJump)
         {
                 rb.AddForce(0, jumpForce, 0);
                 canJump = Time.time + timeBeforeNextJump;
                 anim.SetTrigger("jump");
-        }
+        }*/
     }
 }

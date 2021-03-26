@@ -44,6 +44,11 @@ public class TankCoin : MonoBehaviour
         // Reduce current health by the amount of damage done.
         if (m_CurrentCoin >= price)
         {
+            TankShooting shootTank = gameObject.GetComponent<TankShooting>();
+            if (shootTank.ShellNumber == 0 ){
+                shootTank.switchShell(1);
+            }
+            
             m_CurrentCoin -= price;
             SetCoinUI();
         }
@@ -66,7 +71,7 @@ public class TankCoin : MonoBehaviour
     {
         if (Input.GetButtonDown(m_BuyItemButton))
         {
-            BuyItem(70);
+            BuyItem(150);
         }
     }
 

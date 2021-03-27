@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,9 +22,10 @@ public class GameManager : MonoBehaviour
     public Text m_Player2Label;
     public Text m_VolumeMixerLabel;
     public Image m_BackgroundMenu;
-    public Slider m_VolumeMixer;
+    public Slider m_VolumeMixerSlider;
     public InputField m_InputFieldPlayer1;
     public InputField m_InputFieldPlayer2;
+    public AudioMixer m_VolumeMixer;
 
 
 
@@ -36,6 +38,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        //float VolumeSliderGet = GameObject.Find("VolumeSlider").GetComponent<Slider>().value;
+        //Debug.Log(VolumeSliderGet);
+        //m_VolumeMixerSlider.onValueChanged.AddListener(delegate { SetVolume(m_VolumeMixerSlider.value); });
+        m_InputFieldPlayer1.text = PlayerPrefs.GetString("Player1Name");
+        m_InputFieldPlayer2.text = PlayerPrefs.GetString("Player2Name");
         m_PlayButton.onClick.AddListener(StartPlay);
 
         // Create the delays so they only have to be made once.
@@ -145,14 +152,35 @@ public class GameManager : MonoBehaviour
         m_Player2Label.text = string.Empty;
         m_VolumeMixerLabel.text = string.Empty;
 
+        if (m_InputFieldPlayer1.text != "")
+        {
+            PlayerPrefs.SetString("Player1Name", m_InputFieldPlayer1.text);
+            m_Tanks[0].m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_Tanks[0].m_PlayerColor) + ">" + m_InputFieldPlayer1.text + "</color>";
+        }
+        if (m_InputFieldPlayer2.text != "")
+        {
+            PlayerPrefs.SetString("Player2Name", m_InputFieldPlayer2.text);
+            m_Tanks[1].m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_Tanks[1].m_PlayerColor) + ">" + m_InputFieldPlayer2.text + "</color>";
+
+        }
+
         m_PlayButton.gameObject.SetActive(false);
         m_BackgroundMenu.gameObject.SetActive(false);
         m_InputFieldPlayer1.gameObject.SetActive(false);
         m_InputFieldPlayer2.gameObject.SetActive(false);
-        m_VolumeMixer.gameObject.SetActive(false);
+        m_VolumeMixerSlider.gameObject.SetActive(false);
+
+
 
         // Wait for the specified length of time until yielding control back to the game loop.
         yield return m_StartWait;
+    }
+
+    private void SetVolume(float sliderValue)
+    {
+        Debug.Log(Mathf.Log10(sliderValue * 20));
+        //m_VolumeMixer.SetFloat("MusicVol", Mathf.Log10(sliderValue * 20));
+        //Debug.Log(m_VolumeMixerSlider.value);
     }
 
 
@@ -165,8 +193,8 @@ public class GameManager : MonoBehaviour
         m_MessageText.text = string.Empty;
 
         // While there is not one tank left...
-        //while (!OneTankLeft())
-        while (true)
+        while (!OneTankLeft())
+        //while (true)
         {
             SpawnCoins();
             // ... return on the next frame.

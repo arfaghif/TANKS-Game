@@ -70,10 +70,14 @@ public class GameManager : MonoBehaviour
 
     private void SpawnCoins()
     {
-        if (Time.time - lastSpawn >= 7)
+        if (Time.time - lastSpawn >= 6)
         {
-            Instantiate(m_CoinPrefab, new Vector3(Random.Range(-298, -276), 0.6f, Random.Range(-39, 21)), Quaternion.identity);
-            lastSpawn = Time.time;
+            for(int i=0; i< 2; ++i)
+            {
+                Instantiate(m_CoinPrefab, new Vector3(Random.Range(-298, -276), 0.6f, Random.Range(-39, 21)), Quaternion.identity);
+                lastSpawn = Time.time;
+            }
+            
         }
         /*   Coins = new GameObject[2];
            // For all the tanks...

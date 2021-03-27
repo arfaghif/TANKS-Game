@@ -7,11 +7,14 @@ public class TankCoin : MonoBehaviour
 {
     public int m_PlayerNumber = 1;
     public int m_StartingCoin = 0;
+    public int m_priceWeap1 = 150;
+    public int m_priceWeap2 = 200;
+    public int m_priceChar = 300;
     private int m_CurrentCoin;
     public Text totalCoinText;
     public AudioSource m_CollectCoinAudio;
     private string m_BuyItemButton;
-    public string m_BuyChikenButton;
+    private string m_BuyChikenButton;
 
     // Start is called before the first frame update
     void Start()
@@ -41,19 +44,20 @@ public class TankCoin : MonoBehaviour
     }
 
 
-    public void BuyItem(int price)
+    public void BuyWeap()
     {
         // Reduce current health by the amount of damage done.
-        if (m_CurrentCoin >= price)
+        if (m_CurrentCoin >= m_priceWeap1)
         {
             TankShooting shootTank = gameObject.GetComponent<TankShooting>();
-            if (shootTank.ShellNumber == 0 ){
-                shootTank.switchShell(1);
-                m_CurrentCoin -= price;
-                SetCoinUI();
+            if (shootTank.ShellNumber >= 2 || (shootTank.ShellNumber == 1 && m_CurrentCoin < m_priceWeap2))
+            {
+                return;
             }
-            
-            
+            shootTank.upgradeShell();
+
+            m_CurrentCoin -= shootTank.ShellNumber == 1 ? m_priceWeap1 : m_priceWeap2;
+            SetCoinUI();
         }
 
 
@@ -61,19 +65,38 @@ public class TankCoin : MonoBehaviour
         //SetHealthUI();
     }
 
-    public void BuyChiken(int price)
+    public void BuyChiken()
     {
         // Reduce current health by the amount of damage done.
-        if (m_CurrentCoin >= price)
+        if (m_CurrentCoin >= m_priceChar)
         {
             TankHealth healthTank = gameObject.GetComponent<TankHealth>();
-            if (healthTank.invisible == false)
+            if (!healthTank.invisible && !healthTank.haveHealer)
             {
                 healthTank.CreateAggroHolder();
-                m_CurrentCoin -= price;
+                m_CurrentCoin -= m_priceChar;
                 SetCoinUI();
             }
-     }
+        }
+
+
+        // Change the UI elements appropriately.
+        //SetHealthUI();
+    }
+
+    public void BuyPenguin()
+    {
+        // Reduce current health by the amount of damage done.
+        if (m_CurrentCoin >= m_priceChar)
+        {
+            TankHealth healthTank = gameObject.GetComponent<TankHealth>();
+            if (!healthTank.invisible && !healthTank.haveHealer)
+            {
+                healthTank.CreateHealer();
+                m_CurrentCoin -= m_priceChar;
+                SetCoinUI();
+            }
+        }
 
 
         // Change the UI elements appropriately.
@@ -95,11 +118,18 @@ public class TankCoin : MonoBehaviour
     {
         if (Input.GetButtonDown(m_BuyItemButton))
         {
-            BuyItem(150);
+            BuyWeap();
         }
         if (Input.GetButtonDown(m_BuyChikenButton))
         {
-            BuyChiken(350);
+            int gatcha = Random.Range(0, 3);
+            Debug.Log(gatcha);
+            if (gatcha == 0) {
+                BuyChiken();
+            } else {
+                BuyPenguin();
+            }
+
         }
     }
 

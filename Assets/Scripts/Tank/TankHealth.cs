@@ -10,13 +10,20 @@ public class TankHealth : MonoBehaviour
     public Color m_ZeroHealthColor = Color.red;         // The color the health bar will be when on no health.
     public GameObject m_ExplosionPrefab;                // A prefab that will be instantiated in Awake, then used whenever the tank dies.
     public GameObject m_aggroHolderPrefab;
+    public GameObject m_healerPrefab;
+    public float m_healAmount = 10f;
+    public float m_healCooldown = 6f;
 
     private GameObject aggroHolder;
+    private GameObject healer;
     private AudioSource m_ExplosionAudio;               // The audio source to play when the tank explodes.
     private ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed.
     private float m_CurrentHealth;                      // How much health the tank currently has.
     private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?            
     [HideInInspector] public bool invisible;
+    [HideInInspector] public bool haveHealer;
+    private float lastHeal;
+    
 
     private void Awake()
     {
@@ -91,11 +98,31 @@ public class TankHealth : MonoBehaviour
         gameObject.SetActive (false);
     }
 
+    public void Heal()
+    {
+        if(m_CurrentHealth < m_StartingHealth)
+        {
+            m_CurrentHealth  =  Mathf.Min (m_CurrentHealth + m_healAmount, m_StartingHealth);
+        }
+        lastHeal = Time.time;
+        SetHealthUI();
+    }
+
+    
+
     void Update()
     {
+        if (haveHealer && Time.time-lastHeal >= m_healCooldown)
+        {
+            Heal();
+        }
         if(aggroHolder == null)
         {
             invisible = false;
+        }
+        if (healer == null)
+        {
+            haveHealer = false;
         }
     }
 
@@ -103,5 +130,11 @@ public class TankHealth : MonoBehaviour
     {
         aggroHolder = Instantiate(m_aggroHolderPrefab, gameObject.transform.position , Quaternion.identity);
         invisible = true;
+    }
+    public void CreateHealer()
+    {
+        healer = Instantiate(m_healerPrefab, gameObject.transform.position, Quaternion.identity);
+        haveHealer = true;
+        Heal();
     }
 }

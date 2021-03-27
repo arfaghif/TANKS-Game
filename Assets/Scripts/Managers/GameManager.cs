@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public Button m_PlayButton;
     public Button m_Map1Button;
     public Button m_Map2Button;
+    public Button m_Map3Button;
+    public Button m_CreditsButton;
     public Text m_SubTitle;
     public Text m_Player1Label;
     public Text m_Player2Label;
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour
     public InputField m_InputFieldPlayer1;
     public InputField m_InputFieldPlayer2;
     public AudioMixer m_VolumeMixer;
+    
 
     private int m_RoundNumber;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
@@ -152,6 +155,7 @@ public class GameManager : MonoBehaviour
         m_Player1Label.text = string.Empty;
         m_Player2Label.text = string.Empty;
         m_VolumeMixerLabel.text = string.Empty;
+        
 
         if (m_InputFieldPlayer1.text != "")
         {
@@ -172,6 +176,8 @@ public class GameManager : MonoBehaviour
         m_VolumeMixerSlider.gameObject.SetActive(false);
         m_Map1Button.gameObject.SetActive(false);
         m_Map2Button.gameObject.SetActive(false);
+        m_Map3Button.gameObject.SetActive(false);
+        m_CreditsButton.gameObject.SetActive(false);
 
 
 

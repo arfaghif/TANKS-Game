@@ -19,6 +19,8 @@ public class GameManager2 : MonoBehaviour
     public Button m_PlayButton;
     public Button m_Map1Button;
     public Button m_Map2Button;
+    public Button m_Map3Button;
+    public Button m_CreditsButton;
     public Text m_SubTitle;
     public Text m_Player1Label;
     public Text m_Player2Label;
@@ -174,6 +176,8 @@ public class GameManager2 : MonoBehaviour
         m_VolumeMixerSlider.gameObject.SetActive(false);
         m_Map1Button.gameObject.SetActive(false);
         m_Map2Button.gameObject.SetActive(false);
+        m_Map3Button.gameObject.SetActive(false);
+        m_CreditsButton.gameObject.SetActive(false);
 
 
 

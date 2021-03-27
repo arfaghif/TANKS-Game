@@ -19,12 +19,26 @@ public class MenuNav : MonoBehaviour
 
     public void ChangeSceneRace()
     {
-        Debug.Log("SCENE RACE");
         SceneManager.LoadScene("main2");
     }
     
     public void ChangeSceneWinter()
     {
         SceneManager.LoadScene("main1");
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("main1");
+    }
+
+    public void GoToCredits()
+    {
+        SceneManager.LoadScene("credits");
+    }
+
+    public void CoinCollections()
+    {
+        SceneManager.LoadScene("main3");
     }
 }

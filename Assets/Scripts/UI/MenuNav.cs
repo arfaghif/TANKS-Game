@@ -29,7 +29,9 @@ public class MenuNav : MonoBehaviour
 
     public void BackToMainMenu()
     {
+        Debug.Log("masuk sini");
         SceneManager.LoadScene("main1");
+        
     }
 
     public void GoToCredits()

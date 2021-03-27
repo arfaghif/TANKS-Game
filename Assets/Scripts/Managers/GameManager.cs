@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private float lastSpawn;
     //public Transform[] m_SpawnCoins;
     public Button m_PlayButton;
+    public Button m_Map1Button;
+    public Button m_Map2Button;
     public Text m_SubTitle;
     public Text m_Player1Label;
     public Text m_Player2Label;
@@ -27,8 +29,6 @@ public class GameManager : MonoBehaviour
     public InputField m_InputFieldPlayer2;
     public AudioMixer m_VolumeMixer;
 
-
-
     private int m_RoundNumber;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
@@ -38,9 +38,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //float VolumeSliderGet = GameObject.Find("VolumeSlider").GetComponent<Slider>().value;
-        //Debug.Log(VolumeSliderGet);
-        //m_VolumeMixerSlider.onValueChanged.AddListener(delegate { SetVolume(m_VolumeMixerSlider.value); });
         m_InputFieldPlayer1.text = PlayerPrefs.GetString("Player1Name");
         m_InputFieldPlayer2.text = PlayerPrefs.GetString("Player2Name");
         m_PlayButton.onClick.AddListener(StartPlay);
@@ -169,6 +166,8 @@ public class GameManager : MonoBehaviour
         m_InputFieldPlayer1.gameObject.SetActive(false);
         m_InputFieldPlayer2.gameObject.SetActive(false);
         m_VolumeMixerSlider.gameObject.SetActive(false);
+        m_Map1Button.gameObject.SetActive(false);
+        m_Map2Button.gameObject.SetActive(false);
 
 
 

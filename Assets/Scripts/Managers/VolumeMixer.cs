@@ -9,8 +9,6 @@ public class VolumeMixer : MonoBehaviour
     public AudioMixer m_mixer;
     public Slider m_VolumeSlider;
 
-
-
     // Start is called before the first frame update
     void Start()
     {

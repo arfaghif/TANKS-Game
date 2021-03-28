@@ -8,6 +8,11 @@
 3. Coin Collections
 >Permainan ini bersifat multiplayer sehingga Anda bisa bermain bersama pemain lainnya.
 
+## Program UI
+![Main Menu](pictures/main_menu_mode.png)
+![Winter Map](pictures/winter_map.png)
+![Collect Coin Mode](pictures/collect_coin_mode.png)
+
 ## HOW TO PLAY
 1. Pada saat di main menu, silahkan masukan nama pemain pertama dan kedua.
 2. Pilih Game Mode yang Anda inginkan, terdapat total 3 pilihan game mode.
@@ -53,3 +58,9 @@
     - Credits
     - Coin Collection Mode
 3. Naufal Arfananda (13518096)
+    - Collect Coin Game Mode
+    - Spawn Coin
+    - Buy Weapon and Char
+    - Character Behaviour
+    - Weapon
+

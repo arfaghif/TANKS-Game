@@ -9,8 +9,11 @@
 >Permainan ini bersifat multiplayer sehingga Anda bisa bermain bersama pemain lainnya.
 
 ## Program UI
-![Main Menu](pictures/main_menu_mode.png)
+#### Main Menu
+![Main Menu](pictures/main_menu.png)
+#### Winter Map
 ![Winter Map](pictures/winter_map.png)
+#### Collect COin MOde
 ![Collect Coin Mode](pictures/collect_coin_mode.png)
 
 ## HOW TO PLAY
